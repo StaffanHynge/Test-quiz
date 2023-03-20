@@ -1,24 +1,16 @@
 // To find all the Elements
 
 const start = document.getElementById("start");
-
 const quiz = document.getElementById("quiz");
-
-const qImg = document.getElementById("qimage");
-
+const qImg = document.getElementById("qImg");
 const question = document.getElementById("question");
-
 const counter = document.getElementById("counter");
-
-const timeGauge = document.getElementById("timegauge");
-
+const timeGauge = document.getElementById("timeGauge");
 const choiceA = document.getElementById("A");
 const choiceB = document.getElementById("B");
 const choiceC = document.getElementById("C");
-
 const progress = document.getElementById("progress");
-
-const scoreContainer = document.getElementById("scorecontainer");
+const scoreDiv = document.getElementById("scoreContainer");
 
 // Create my questions (lägg till en img imSrc: "img.png")
 
@@ -74,10 +66,10 @@ function startQuiz () {
 }
 
 
-
+// render progress
 function renderProgress () {
-    for(let qIndex = 0; qIndex<= lastQuestion; qIndex++){
-        progress.innerHTML += "<div class='prog' id=" + qIndex +"></div>"
+    for(let qIndex = 0; qIndex <= lastQuestion; qIndex++){
+        progress.innerHTML += "<div class='prog' id=" + qIndex +"></div>";
     }
 }
 
@@ -90,17 +82,23 @@ function renderCounter () {
         count++
     } else {
         count = 0; 
+        // change progress color to red
+        answerIsWrong();
         if (runningQuestion < lastQuestion) {
             runningQuestion++;
             renderQuestion();
+    } else{
+        // end the quiz and show the score
+        clearInterval(TIMER);
+        scoreRender();
     }
     
-    }
+}
 }
 
 // Check Answer 
 function checkAnswer(answer) {
-    if (answer == questions [runningQuestion].correct) {
+    if (answer == questions[runningQuestion].correct) {
         // Answer is correct 
         score++;
         // change progresscolor to green
@@ -114,15 +112,29 @@ function checkAnswer(answer) {
     if (runningQuestion < lastQuestion) {
         runningQuestion++;
         renderQuestion();
+    } else{
+        // end the quiz and show the score
+        clearInterval(TIMER);
+        scoreRender();
     }
 
 }
 
 // answer is correct
 function answerIsCorrect(){
-    document.getElementById(runningQuestion).style.backroundColor = "#0f0";
+    document.getElementById(runningQuestion).style.backgroundColor = "#0f0";
 }
 // answer is wrong
 function answerIsWrong(){
-    document.getElementById(runningQuestion).style.backroundColor = "#f00";
+    document.getElementById(runningQuestion).style.backgroundColor = "#f00";
+}
+
+// score render
+function scoreRender () {
+    scoreDiv.style.display = "block" ; 
+    // calculate the amount of question percent answered by the user
+    const scorePercent = Math.round(100 * score/questions.length) ;
+
+    // choose the image based on the scorePerCent
+    
 }
